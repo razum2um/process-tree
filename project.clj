@@ -1,4 +1,4 @@
-(defproject process-tree "0.1.0"
+(defproject process-tree "0.1.1-SNAPSHOT"
   :description "Manage your dependent processes in declarative way"
   :url "http://github.com/razum2um/process-tree"
   :license {:name "Eclipse Public License"
