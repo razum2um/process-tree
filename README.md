@@ -37,6 +37,13 @@ You can also stop process and all dependent children by:
 This would send `kill -15` to all leaf-children recurcively first
 then their's parents and only then terminate `Xvfb` itself.
 
+Your process tree configuration can be also passed directly to run/term:
+
+```clojure
+;; assume cfg is as above: {:Xvfb ..., :fluxbox ...}
+(process-tree.core/run :skype :x11vnc cfg)
+```
+
 **NOTE** that keys in map must match process name,
 if not - just name it like you want, but add `:name` key in it's map.
 
