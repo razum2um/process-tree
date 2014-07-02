@@ -15,7 +15,7 @@ Declare your processes in `.lein-env` in project root:
                 :skype   {:start "echo username password | skype --pipelogin"
                           :dependencies :fluxbox}
                 :x11vnc  {:start "x11vnc -xkb -forever"
-                         :dependencies :Xvfb}}}
+                          :dependencies :Xvfb}}}
 ```
 
 then in your code just:
