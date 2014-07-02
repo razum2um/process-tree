@@ -1,5 +1,6 @@
 (ns process-tree.exec
-  (:require [process-tree.find :refer :all]
+  (:require [process-tree.deps :refer :all]
+            [process-tree.find :refer :all]
             [process-tree.utils :refer :all]))
 
 (defn exec
@@ -30,12 +31,12 @@
 (defn stop-node
   [node]
   (let [pid (:pid node)]
-    (do (doall (map stop-node (dbg (:dependents node))))  ;; halt children
-        (sigterm pid)                               ;; halt self
+    (do (doall (map stop-node (:dependents node)))  ;; halt children
+        (sigterm pid)                                          ;; halt self
         (loop [new-node (find-process node)]
-          (if (some? (dbg (:pid new-node)))
+          (if (some? (:pid new-node))
             (do
-              (clojure.pprint/pprint (str "wait for term: " new-node))
+              ;; (clojure.pprint/pprint (str "wait for term: " new-node))
               (Thread/sleep 100)
               (recur (find-process node)))))
         )))

@@ -12,6 +12,10 @@
          ", dependencies: [" (join ", " (map :name (:dependencies n)))
          "], dependents: [" (join ", " (map :name (:dependents n))) "]}")))
 
+;; avoid recurcion in REPL
+(defmethod clojure.core/print-method ProcessNode [x writer]
+  (.write writer (str x)))
+
 (defmacro obj-to-map
   "Converts a Java object to Clojure map"
   [obj & body]

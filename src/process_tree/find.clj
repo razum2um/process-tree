@@ -3,13 +3,11 @@
             [process-tree.node :refer :all])
   (:import (com.jezhumble.javasysmon JavaSysMon)))
 
-
 (defn filter-process
   [node process]
-  (identity
-    (or
-      (= (:pid  node) (-> process .processInfo .getPid))
-      (= (:name node) (-> process .processInfo .getName)))))
+  (or
+    (= (:pid  node) (-> process .processInfo .getPid))
+    (= (:name node) (-> process .processInfo .getName))))
 
 (defn process-root
   []
@@ -42,7 +40,7 @@
            dependents)))
 
 (defn find-node
-  "(find :xvfb) -> ProcessNode"
-  [config name]
+  "(find-node :xvfb) -> ProcessNode"
+  [name config]
   (find-process (build-deps name config)))
 

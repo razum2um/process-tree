@@ -15,7 +15,7 @@
   [& args]
   (let [names (filter keyword? args)
         cfg (or (first (filter map? args)) (env process-tree-env))]
-    (map #(-> % (partial find-node cfg) start-node) names)))
+    (map #(start-node (find-node % cfg)) names)))
 
 (defn term
   "Stops process and all dependent children
@@ -25,5 +25,15 @@
   [& args]
   (let [names (filter keyword? args)
         cfg (or (first (filter map? args)) (env process-tree-env))]
-    (map #(-> % (partial find-node cfg) stop-node) names)))
+    (map #(stop-node (find-node % cfg)) names)))
+
+(defn setup-dev
+  []
+  (ns process-tree.core)
+  (use '[clojure.tools.namespace.repl :only [refresh]])
+  (use 'process-tree.core)
+  (use 'process-tree.deps)
+  (use 'process-tree.utils)
+  (require '[environ.core :refer [env]])
+  (def cfg (env process-tree-env)))
 
