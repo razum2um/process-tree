@@ -1,6 +1,6 @@
 (ns process-tree.node
-  (:require [process-tree.utils :refer [compact str-all]]
-            [clojure.string :refer [join trim]]))
+  (:require [clojure.string :refer [join trim]]
+            [process-tree.utils :refer [compact str-all]]))
 
 (defrecord ProcessNode
   [pid name command start dependents dependencies]

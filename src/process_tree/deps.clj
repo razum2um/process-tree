@@ -1,6 +1,6 @@
 (ns process-tree.deps
-  (:require [process-tree.utils :refer :all]
-            [process-tree.node :refer :all]))
+  (:require [process-tree.node :refer :all]
+            [process-tree.utils :refer :all]))
 
 (defn has-dependencies?
   [node]
