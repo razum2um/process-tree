@@ -22,17 +22,16 @@ Declare your processes in `.lein-env` in project root:
 then in your code just:
 
 ```clojure
-(process-tree.core/run :skype :x11vnc)
+(process-tree.core/run :skype :x11vnc) ;; this blocks
 ```
 
 This ensures that all dependencies are up-and-running and spawns
-missing processes. You can also run this scheduled and achieve `runit`-like
-monitoring effect - your processes won't be started twice.
+missing processes.
 
 You can also stop process and all dependent children by:
 
 ```clojure
-(process-tree.core/term :Xvfb)
+(process-tree.core/term :Xvfb) ;; this blocks
 ```
 
 This would send `kill -15` to all leaf-children recurcively first
@@ -47,6 +46,17 @@ Your process tree configuration can be also passed directly to run/term:
 
 **NOTE** that keys in map must match process name,
 if not - just name it like you want, but add `:name` key in it's map.
+
+## Supervising
+
+You can also run this scheduled or just in a loop in a separate thread
+and achieve `runit`-like monitoring effect. Be sure, your processes
+won't be started twice and it's pretty fast check
+
+```clojure
+;; assume everything is running
+(time (run :x11vnc :skype)) ;;=> "Elapsed time: 0.022286 msecs"
+```
 
 ## REPL-development
 
