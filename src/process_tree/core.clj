@@ -18,17 +18,16 @@
   (not (empty? (:dependents node))))
 
 (defn build-deps
-  [key config & dependents]
-  (let [dependents (or dependents '())
-        deps (compact (list (:dependencies (key config))))
-        node (map->ProcessNode (merge
-                                 (select-keys (key config) [:name :start])
-                                 {:name (name key)
-                                  :dependents dependents
-                                  :dependencies '()}))]
-    (if (empty? deps)
-      (identity node)
-      (assoc node :dependencies (map #(build-deps % config node) deps)))))
+  ([key config] (build-deps key config '()))
+  ([key config dependents]
+   (let [node-dependents (map #(build-deps % config) (compact (:dependents (key config))))
+         node-dependencies (map #(build-deps % config node-dependents) (compact (:dependencies (key config))))
+         node (map->ProcessNode (merge
+                                  (select-keys (key config) [:name :start])
+                                  {:name (name key)
+                                   :dependents (concat dependents node-dependents)
+                                   :dependencies (concat node-dependencies '())}))]
+     (identity node))))
 
 (defn process-to-map
   [process]

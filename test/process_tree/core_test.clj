@@ -1,28 +1,42 @@
 (ns process-tree.core-test
   (:use expectations)
-  (:require [process-tree.core :refer :all]))
+  (:require [process-tree.core :refer :all]
+            [process-tree.utils :refer :all]
+            ))
 
-(def test-config {:Xvfb {:start "Xvfb :0 -screen 0 800x600x16"}
+(def test-config {:Xvfb {:start "Xvfb :0 -screen 0 800x600x16"
+                         :dependents :fluxbox}
                   :fluxbox {:start "fluxbox"
-                            :dependencies :Xvfb}
+                            :dependencies :Xvfb
+                            :dependents :skype}
                   :skype  {:start "echo username password | skype --pipelogin"
                            :dependencies :fluxbox}
                   :x11vnc {:start "x11vnc -xkb -forever"
                            :dependencies :Xvfb}})
 
+;; dependencies
 
-(let [skype (build-deps :skype test-config)
-      dependencies (tree-seq has-dependencies? :dependencies skype)
-      names (map :name dependencies)]
-  (expect '("skype" "fluxbox" "Xvfb") names))
+(defn dependency-names
+  [name]
+  (let [node (build-deps name test-config)
+        deps (tree-seq has-dependencies? :dependencies node)]
+    (map :name deps)))
 
-(let [x11vnc (build-deps :x11vnc test-config)
-      dependencies (tree-seq has-dependencies? :dependencies x11vnc)
-      names (map :name dependencies)]
-  (expect '("x11vnc" "Xvfb") names))
+(expect '("Xvfb") (dependency-names :Xvfb))
+(expect '("x11vnc" "Xvfb") (dependency-names :x11vnc))
+(expect '("fluxbox" "Xvfb") (dependency-names :fluxbox))
+(expect '("skype" "fluxbox" "Xvfb") (dependency-names :skype))
 
-(let [xvfb (build-deps :Xvfb test-config)
-      dependents (tree-seq has-dependencies? :dependents xvfb)
-      names (map :name dependents)]
-  (expect '("Xvfb" "fluxbox" "skype") names))
+;; dependents
+
+(defn dependent-names
+  [name]
+  (let [node (build-deps name test-config)
+        deps (tree-seq has-dependents? :dependents node)]
+    (reverse (map :name deps))))
+
+(expect '("skype" "fluxbox" "Xvfb") (dependent-names :Xvfb))
+(expect '("x11vnc") (dependent-names :x11vnc))
+(expect '("skype" "fluxbox") (dependent-names :fluxbox))
+(expect '("skype") (dependent-names :skype))
 

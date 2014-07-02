@@ -12,7 +12,9 @@
 
 (defn compact
   [coll]
-  (remove nil? coll))
+  (if (coll? coll)
+    (remove nil? coll)
+    (compact (list coll))))
 
 (defmacro dbg
   [x]
