@@ -48,6 +48,21 @@ Your process tree configuration can be also passed directly to run/term:
 **NOTE** that keys in map must match process name,
 if not - just name it like you want, but add `:name` key in it's map.
 
+## REPL-development
+
+```clojure
+(use 'process-tree.core)
+(setup-dev)
+```
+
+## Test
+
+```bash
+$ lein expectations
+# or
+$ lein autoexpect
+```
+
 ## License
 
 Copyright © 2014 Vlad Bokov
