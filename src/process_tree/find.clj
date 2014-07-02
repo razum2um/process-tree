@@ -1,10 +1,8 @@
 (ns process-tree.find
-  (:require [environ.core :refer [env]]
-            [process-tree.deps :refer :all]
+  (:require [process-tree.deps :refer :all]
             [process-tree.node :refer :all])
   (:import (com.jezhumble.javasysmon JavaSysMon)))
 
-(def config (or (env :process-tree) {}))
 
 (defn filter-process
   [node process]
@@ -45,6 +43,6 @@
 
 (defn find-node
   "(find :xvfb) -> ProcessNode"
-  [name]
+  [config name]
   (find-process (build-deps name config)))
 

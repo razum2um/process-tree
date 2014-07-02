@@ -2,8 +2,6 @@
   (:require [process-tree.find :refer :all]
             [process-tree.utils :refer :all]))
 
-;; Fire process
-
 (defn exec
   [cmd]
   (.exec (Runtime/getRuntime) (into-array ["/bin/sh" "-c" cmd])))
