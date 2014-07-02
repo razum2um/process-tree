@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [com.outr.javasysmon/javasysmon_2.10 "0.3.4"]
                  [environ "0.5.0"]]
+  ;; use (clojure.tools.namespace.repl/refresh)
   :profiles {:dev {:dependencies [[org.clojure/tools.namespace "0.2.4"]
                                   [expectations "2.0.6"]
                                   [lein-expectations "0.0.5"]]}}
