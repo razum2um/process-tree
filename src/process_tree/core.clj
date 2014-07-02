@@ -1,30 +1,11 @@
 (ns process-tree.core
-  (:require 
-    [process-tree.utils :refer :all]
+  (:require [process-tree.utils :refer :all]
             [process-tree.node :refer :all]
             [process-tree.deps :refer :all]
-            [environ.core :refer [env]]
-            [clojure.string :refer [trim join]])
+            [environ.core :refer [env]])
   (:import [com.jezhumble.javasysmon JavaSysMon]))
 
 (def config (or (env :process-tree) {}))
-
-;; processes
-
-(defn process-to-map
-  [process]
-  (if (nil? process)
-    (identity {:pid nil})
-    (update-in
-      (obj-to-map (.processInfo process) getPid :pid getName :name getCommand :command)
-      [:command]
-      trim)))
-
-(defn process-to-node
-  [process]
-  (when process
-    (map->ProcessNode
-      (process-to-map process))))
 
 ;; Find process
 
