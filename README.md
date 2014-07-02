@@ -1,8 +1,8 @@
-[![Build Status][BS img]][Build Status]
-
 # Process Tree
 
 Manage your dependent processes in declarative way
+
+[![Build Status][BS img]][Build Status]
 
 [![Clojars Project](http://clojars.org/process-tree/latest-version.svg)](http://clojars.org/process-tree)
 
