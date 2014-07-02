@@ -6,3 +6,7 @@
   (expect '(1 2 3)
           (compact coll)))
 
+(expect nil (str-all))
+(expect nil (str-all nil "some" " " "str"))
+(expect "some str" (str-all "some" " " "str"))
+

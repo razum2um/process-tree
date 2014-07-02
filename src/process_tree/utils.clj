@@ -8,10 +8,11 @@
 
 (defn str-all
   "str arguments only if all are present"
-  [& args]
-  (if (some nil? args)
-    nil
-    (apply str args)))
+  ([] nil)
+  ([& args]
+   (if (some nil? args)
+     nil
+     (apply str args))))
 
 (defmacro dbg
   [x]
